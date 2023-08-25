@@ -168,19 +168,19 @@ template Keccakf() {
 }
 
 template Keccak(nBitsIn, nBitsOut) {
-    signal input in[nBitsIn];
-    signal output out[nBitsOut];
+    signal input step_in[nBitsIn];
+    signal output step_out[nBitsOut];
     var i;
 
     component f = Final(nBitsIn);
     for (i=0; i<nBitsIn; i++) {
-        f.in[i] <== in[i];
+        f.in[i] <== step_in[i];
     }
     component squeeze = Squeeze(nBitsOut);
     for (i=0; i<25*64; i++) {
         squeeze.s[i] <== f.out[i];
     }
     for (i=0; i<nBitsOut; i++) {
-        out[i] <== squeeze.out[i];
+        step_out[i] <== squeeze.out[i];
     }
 }
